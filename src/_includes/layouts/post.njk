@@ -1,24 +1,54 @@
 ---
 layout: layouts/base.njk
 ---
-<article class="post">
-  {% if image %}
-  <figure class="post-hero">
-    <img src="{{ image }}" alt="{{ imageAlt if imageAlt else title }}" />
-    {% if imageCaption %}<figcaption>{{ imageCaption }}</figcaption>{% endif %}
-  </figure>
-  {% endif %}
+{% set wc = content | wordCount %}
+{% set readMins = (wc / 200) | round %}
 
-  <header class="post-header">
-    <h1 class="post-title">{{ title }}</h1>
-    <time class="post-meta" datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
-  </header>
+<article>
 
+  {# ── Hero ────────────────────────────────────────────── #}
+  <div class="post-hero">
+
+    {% if heroLeft or heroRight %}
+    {# Split title: text left | painting | text right #}
+    <div class="hero-grid">
+      <div class="hero-title-l">{{ heroLeft | nl2br | safe if heroLeft }}</div>
+      <figure class="hero-fig" {% if image %}data-parallax{% endif %}>
+        {% if image %}<img src="{{ image }}" alt="{{ imageAlt if imageAlt else title }}" />{% endif %}
+        {% if imageCaption %}<figcaption>{{ imageCaption }}</figcaption>{% endif %}
+      </figure>
+      <div class="hero-title-r">{{ heroRight | nl2br | safe if heroRight }}</div>
+    </div>
+
+    {% else %}
+    {# Simple centered layout #}
+    <div class="hero-simple">
+      <h1 class="hero-title-center">{{ title }}</h1>
+      {% if image %}
+      <figure class="hero-fig" data-parallax>
+        <img src="{{ image }}" alt="{{ imageAlt if imageAlt else title }}" />
+        {% if imageCaption %}<figcaption>{{ imageCaption }}</figcaption>{% endif %}
+      </figure>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="hero-meta">
+      <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+      {% if wc > 0 %}<span>~{{ wc }} words &nbsp;&middot;&nbsp; {{ readMins }} min read</span>{% endif %}
+    </div>
+  </div>
+
+  <hr class="hero-rule" />
+
+  {# ── Body ─────────────────────────────────────────────── #}
   <div class="post-body">
     {{ content | safe }}
   </div>
 
+  {# ── Footer ───────────────────────────────────────────── #}
   <footer class="post-footer">
     <a href="/" class="back-link">&larr; all essays</a>
   </footer>
+
 </article>

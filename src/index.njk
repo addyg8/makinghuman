@@ -2,16 +2,18 @@
 layout: layouts/base.njk
 title: makinghuman
 ---
-<p class="index-intro">Essays on science, nature, and what it means to be human.</p>
+<div class="index-wrap">
+  <p class="index-intro">Essays on science, nature, and what it means to be human.</p>
 
-<ul class="post-list">
-  {% set posts = collections.post | reverse %}
-  {% for post in posts %}
-  <li>
-    <a href="{{ post.url }}">
-      <span class="post-list-title">{{ post.data.title }}</span>
-      <span class="post-list-date">{{ post.date | readableDate }}</span>
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+  <ul class="post-list">
+    {% set posts = collections.post | reverse %}
+    {% for post in posts %}
+    <li>
+      <a href="{{ post.url }}">
+        <span class="post-list-title">{{ post.data.title }}</span>
+        <span class="post-list-date">{{ post.date | readableDate }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

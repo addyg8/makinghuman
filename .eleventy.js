@@ -1,30 +1,31 @@
 module.exports = function(eleventyConfig) {
-  // Copy static assets
   eleventyConfig.addPassthroughCopy("src/images");
   eleventyConfig.addPassthroughCopy("src/css");
+  eleventyConfig.addPassthroughCopy("src/js");
 
-  // Date filter
   eleventyConfig.addFilter("readableDate", (dateObj) => {
-    const d = new Date(dateObj);
-    return d.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      timeZone: "UTC",
+    return new Date(dateObj).toLocaleDateString("en-US", {
+      year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
     });
   });
 
-  // ISO date filter for <time> element
   eleventyConfig.addFilter("isoDate", (dateObj) => {
     return new Date(dateObj).toISOString().split("T")[0];
   });
 
+  // Strip HTML tags and count words
+  eleventyConfig.addFilter("wordCount", (content) => {
+    const text = (content || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    return text ? text.split(" ").length : 0;
+  });
+
+  // Newline to <br> for heroLeft/heroRight frontmatter
+  eleventyConfig.addFilter("nl2br", (str) => {
+    return (str || "").replace(/\n/g, "<br>");
+  });
+
   return {
-    dir: {
-      input: "src",
-      output: "_site",
-      includes: "_includes",
-    },
+    dir: { input: "src", output: "_site", includes: "_includes" },
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
   };

@@ -3,10 +3,13 @@ layout: layouts/post.njk
 title: When Did Science Get So Small?
 date: 2024-01-15
 description: From indigenous holism to colonial reductionism — a meditation on how science lost its wonder, and why we might be getting it back.
-# To add an image: download a public domain painting (e.g. from wikimedia.org)
-# to src/images/, then uncomment these three lines:
+# Split title: left side | painting | right side (optional — delete these if you just want a centered title)
+heroLeft: "When Did\nScience"
+heroRight: "Get So\nSmall?"
+# To add a painting: download one (e.g. from commons.wikimedia.org/wiki/Category:Public_domain_paintings)
+# into src/images/, then fill in these three fields:
 # image: /images/your-painting.jpg
-# imageAlt: Painting description
+# imageAlt: Painting title and artist
 # imageCaption: Artist, *Title*, Year. Museum. Public domain.
 tags:
   - post

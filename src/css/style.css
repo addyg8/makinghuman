@@ -3,66 +3,59 @@
 
 /* ── Tokens ──────────────────────────────────────────────── */
 :root {
-  --bg:         #eef4fb;   /* very light blue */
-  --border:     #d0dcea;
-  --muted:      #7a90a8;
-  --body:       #1e2a35;
-  --heading:    #0f1a24;
-  --link:       #2a5080;
-  --link-hover: #0f1a24;
+  --bg:       #edf3f9;   /* very light blue */
+  --border:   #ccd8e4;
+  --muted:    #7a93aa;
+  --body:     #1c2b38;
+  --heading:  #0d1b26;
+  --link:     #255a8a;
 
-  --serif: "Lora", Georgia, serif;
-  --sans:  "DM Sans", system-ui, sans-serif;
+  --display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --serif:   "EB Garamond", Georgia, serif;
+  --sans:    "DM Sans", system-ui, sans-serif;
 
-  --col:  620px;
+  --col: 520px;   /* body text column */
 }
 
 /* ── Base ────────────────────────────────────────────────── */
-html { font-size: 20px; scroll-behavior: smooth; }
+html { font-size: 19px; scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
   color: var(--body);
   font-family: var(--serif);
   font-size: 1rem;
-  line-height: 1.85;
-  padding: 0 1.5rem;
+  line-height: 1.82;
+  overflow-x: hidden;
 }
 
-/* ── Layout ──────────────────────────────────────────────── */
-.site-header,
-.site-footer,
-main { max-width: var(--col); margin-inline: auto; }
-
-/* ── Header ──────────────────────────────────────────────── */
+/* ── Site header ─────────────────────────────────────────── */
 .site-header {
-  padding-block: 3rem 0;
-  margin-bottom: 4rem;
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 2.2rem 1.5rem 0;
 }
 
 .site-title {
-  display: block;
   font-family: var(--sans);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
   text-decoration: none;
-  margin-bottom: 0.6rem;
+  display: block;
+  margin-bottom: 0.45rem;
   transition: color 0.15s;
 }
 
 .site-title:hover { color: var(--heading); }
 
-.site-header nav {
-  display: flex;
-  gap: 1.2rem;
-}
+.site-header nav { display: flex; gap: 1.2rem; }
 
 .site-header nav a {
   font-family: var(--sans);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -72,30 +65,34 @@ main { max-width: var(--col); margin-inline: auto; }
 
 .site-header nav a:hover { color: var(--heading); }
 
-/* ── Footer ──────────────────────────────────────────────── */
+/* ── Site footer ─────────────────────────────────────────── */
 .site-footer {
-  margin-top: 6rem;
-  padding-block: 2rem 4rem;
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 2rem 1.5rem 3.5rem;
   font-family: var(--sans);
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-/* ── Index ───────────────────────────────────────────────── */
+/* ── Index page ──────────────────────────────────────────── */
+.index-wrap {
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
 .index-intro {
   font-family: var(--serif);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-style: italic;
   color: var(--muted);
-  margin-bottom: 3.5rem;
-  line-height: 1.6;
+  margin-bottom: 3rem;
 }
 
 .post-list { list-style: none; }
-
-.post-list li + li { margin-top: 0.1rem; }
 
 .post-list a {
   display: flex;
@@ -113,16 +110,15 @@ main { max-width: var(--col); margin-inline: auto; }
 .post-list-title {
   font-family: var(--serif);
   font-size: 1rem;
-  font-weight: 400;
   color: var(--heading);
   transition: opacity 0.15s;
 }
 
-.post-list a:hover .post-list-title { opacity: 0.55; }
+.post-list a:hover .post-list-title { opacity: 0.5; }
 
 .post-list-date {
   font-family: var(--sans);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
@@ -130,144 +126,244 @@ main { max-width: var(--col); margin-inline: auto; }
   flex-shrink: 0;
 }
 
-/* ── Post ────────────────────────────────────────────────── */
-.post { padding-bottom: 5rem; }
-
-/* Hero image — full column width */
+/* ══════════════════════════════════════════════════════════
+   POST — HERO
+   The painting is centered; the title text is split left/right
+   of it and also flows above/below when no image is present.
+══════════════════════════════════════════════════════════ */
 .post-hero {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 5vh 5vw 4vh;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Split-title layout (heroLeft + heroRight) ───────────── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr min(400px, 36vw) 1fr;
+  align-items: center;
+  gap: 0 1.5vw;
+}
+
+.hero-title-l,
+.hero-title-r {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 6.2vw, 6.4rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--heading);
+}
+
+.hero-title-l { text-align: right; }
+.hero-title-r { text-align: left; }
+
+/* ── Centered layout (title only, no split) ──────────────── */
+.hero-simple { text-align: center; }
+
+.hero-title-center {
+  font-family: var(--display);
+  font-size: clamp(3rem, 7.5vw, 7.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--heading);
   margin-bottom: 3rem;
 }
 
-.post-hero img {
+/* ── Painting ────────────────────────────────────────────── */
+.hero-fig {
+  position: relative;
+  padding-top: 10px;   /* space for tape */
+}
+
+.hero-fig img {
   width: 100%;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
-.post-hero figcaption {
-  margin-top: 0.6rem;
+/* Tape decorations */
+.hero-fig::before,
+.hero-fig::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 42px;
+  height: 13px;
+  background: rgba(168, 188, 208, 0.65);
+  z-index: 2;
+}
+.hero-fig::before { left: 14%; transform: rotate(-2.5deg); }
+.hero-fig::after  { right: 14%; transform: rotate(2deg); }
+
+.hero-fig figcaption {
+  margin-top: 0.5rem;
   font-family: var(--sans);
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   letter-spacing: 0.06em;
   color: var(--muted);
-  font-style: normal;
+  text-align: right;
+  font-style: italic;
 }
 
-/* Title block */
-.post-header {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.post-title {
-  font-family: var(--serif);
-  font-size: 2.2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--heading);
-  margin-bottom: 1rem;
-  letter-spacing: -0.01em;
-}
-
-.post-meta {
+/* ── Hero meta (date + read time) ────────────────────────── */
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
   font-family: var(--sans);
   font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--muted);
+  font-style: italic;
 }
 
-/* Body text */
+/* ── Divider after hero ──────────────────────────────────── */
+.hero-rule {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-bottom: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   POST — BODY
+══════════════════════════════════════════════════════════ */
+.post-body {
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 4rem 1.5rem 5rem;
+}
+
 .post-body p {
-  margin-bottom: 1.5em;
-  hanging-punctuation: first;
+  margin-bottom: 1.3em;
+  text-align: justify;
+  hyphens: auto;
+  /* Fade-in initial state — JS adds .visible */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.7s ease, transform 0.65s ease;
 }
 
-/* Drop cap on first paragraph */
-.post-body > p:first-child::first-letter {
-  font-size: 3.8em;
-  font-weight: 700;
-  line-height: 0.8;
-  float: left;
-  margin-right: 0.08em;
-  margin-top: 0.07em;
-  color: var(--heading);
-}
+.post-body p.visible,
+.no-js .post-body p { opacity: 1; transform: none; }
 
 .post-body p:last-child { margin-bottom: 0; }
 
 .post-body h2 {
-  font-family: var(--serif);
-  font-size: 1.15rem;
+  font-family: var(--display);
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--heading);
   margin-top: 2.8em;
-  margin-bottom: 0.7em;
+  margin-bottom: 0.6em;
   letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.7s ease, transform 0.65s ease;
 }
+
+.post-body h2.visible,
+.no-js .post-body h2 { opacity: 1; transform: none; }
 
 .post-body h3 {
   font-family: var(--serif);
   font-size: 1rem;
   font-style: italic;
-  font-weight: 400;
   color: var(--heading);
-  margin-top: 2.2em;
+  margin-top: 2em;
   margin-bottom: 0.5em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s ease, transform 0.65s ease;
 }
+
+.post-body h3.visible,
+.no-js .post-body h3 { opacity: 1; transform: none; }
 
 .post-body em { font-style: italic; }
-.post-body strong { font-weight: 700; }
+.post-body strong { font-weight: 600; }
 
 .post-body blockquote {
-  margin-block: 2em;
-  padding-left: 1.4rem;
-  border-left: 2px solid var(--border);
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--border);
   font-style: italic;
   color: var(--muted);
+  margin-block: 1.8em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s ease, transform 0.65s ease;
 }
 
-/* Inline images inside post body */
-.post-body figure {
-  margin-block: 2.5em;
-}
-
-.post-body figure img {
-  width: 100%;
-  display: block;
-}
-
-.post-body figure figcaption {
-  margin-top: 0.6rem;
-  font-family: var(--sans);
-  font-size: 0.6rem;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
+.post-body blockquote.visible,
+.no-js .post-body blockquote { opacity: 1; transform: none; }
 
 .post-body a {
   color: var(--link);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: var(--border);
-  transition: text-decoration-color 0.15s;
 }
 
-.post-body a:hover {
-  color: var(--link-hover);
-  text-decoration-color: var(--link-hover);
+.post-body a:hover { text-decoration-color: var(--link); }
+
+/* Drop cap on first paragraph */
+.post-body > p:first-child::first-letter {
+  font-family: var(--display);
+  font-size: 4em;
+  font-weight: 700;
+  line-height: 0.75;
+  float: left;
+  margin-right: 0.06em;
+  margin-top: 0.1em;
+  color: var(--heading);
 }
 
-/* Back link */
+/* Inline figures inside body */
+.post-body figure {
+  margin-block: 2.5em;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.7s ease, transform 0.65s ease;
+}
+
+.post-body figure.visible,
+.no-js .post-body figure { opacity: 1; transform: none; }
+
+.post-body figure img { width: 100%; display: block; }
+
+.post-body figure figcaption {
+  margin-top: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-align: right;
+  font-style: italic;
+}
+
+/* ── Post footer ─────────────────────────────────────────── */
 .post-footer {
-  margin-top: 3.5rem;
-  padding-top: 1.5rem;
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 0 1.5rem 5rem;
   border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
 }
 
 .back-link {
   font-family: var(--sans);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -277,27 +373,154 @@ main { max-width: var(--col); margin-inline: auto; }
 
 .back-link:hover { color: var(--heading); }
 
+/* ══════════════════════════════════════════════════════════
+   SCENE BREAK
+   Full-bleed section headers like in the reference.
+   Use raw HTML in your Markdown:
+
+   <div class="scene">
+     <p class="scene-label">part one.</p>
+     <div class="scene-grid">
+       <div class="scene-left">The</div>
+       <img class="scene-img" src="/images/foo.jpg" alt="...">
+       <div class="scene-right">story.</div>
+     </div>
+   </div>
+══════════════════════════════════════════════════════════ */
+.scene {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 6vh 5vw;
+  overflow: hidden;
+}
+
+.scene-label {
+  font-family: var(--display);
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.scene-grid {
+  display: grid;
+  grid-template-columns: 1fr min(360px, 34vw) 1fr;
+  align-items: center;
+  gap: 0 1.5vw;
+}
+
+.scene-left,
+.scene-right {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5.8vw, 6rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--heading);
+}
+
+.scene-left { text-align: right; }
+.scene-right { text-align: left; }
+
+.scene-img {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FULL-BLEED PAINTING (wide image with text overlay)
+   <div class="painting-full">
+     <img src="..." alt="...">
+     <div class="painting-text">it wasn't <em>always</em> like this.</div>
+     <p class="painting-caption">Title, Artist (year)</p>
+   </div>
+══════════════════════════════════════════════════════════ */
+.painting-full {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+  overflow: hidden;
+  margin-block: 4rem;
+}
+
+.painting-full img {
+  width: 100%;
+  display: block;
+}
+
+.painting-full .painting-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+
+.painting-full .painting-caption {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 1rem;
+  font-family: var(--sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+}
+
 /* ── About ───────────────────────────────────────────────── */
-.about { padding-bottom: 5rem; }
+.about {
+  max-width: var(--col);
+  margin-inline: auto;
+  padding: 3rem 1.5rem 5rem;
+}
 
 .about h1 {
-  font-family: var(--serif);
-  font-size: 2rem;
+  font-family: var(--display);
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--heading);
   margin-bottom: 2rem;
   letter-spacing: -0.01em;
 }
 
-.about p { margin-bottom: 1.5em; }
+.about p { margin-bottom: 1.4em; }
 
 /* ── Responsive ──────────────────────────────────────────── */
-@media (max-width: 680px) {
-  html { font-size: 18px; }
-  .post-title { font-size: 1.7rem; }
+@media (max-width: 700px) {
+  html { font-size: 17px; }
 
-  .post-list a {
-    flex-direction: column;
-    gap: 0.25rem;
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center !important;
   }
+
+  .hero-title-l, .hero-title-r {
+    font-size: clamp(2.2rem, 9vw, 3.5rem);
+    text-align: center !important;
+  }
+
+  .hero-fig { max-width: 280px; margin-inline: auto; }
+
+  .scene-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .scene-left, .scene-right {
+    text-align: center !important;
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .post-list a { flex-direction: column; gap: 0.2rem; }
 }
