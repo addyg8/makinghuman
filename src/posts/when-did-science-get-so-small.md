@@ -2,6 +2,7 @@
 layout: layouts/post.njk
 title: When Did Science Get So Small?
 date: 2024-01-15
+eleventyExcludeFromCollections: true
 description: From indigenous holism to colonial reductionism — a meditation on how science lost its wonder, and why we might be getting it back.
 # Split title: left side | painting | right side (optional — delete these if you just want a centered title)
 heroLeft: "When Did\nScience"
